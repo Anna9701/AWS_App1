@@ -2,31 +2,27 @@
 using Amazon.S3;
 using Amazon.S3.Transfer;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
-namespace AWS_FileProcessing
+namespace AWS_S3_FilleProcessingLib
 {
-    class Program {
-        private static IAmazonS3 s3Client;
-        private static readonly RegionEndpoint bucketRegion = RegionEndpoint.EUCentral1;
+    public class S3BucketFilesManager : IDisposable {
+        private readonly IAmazonS3 _s3Client;
+        private readonly RegionEndpoint _bucketRegion;
 
-        private const string bucketName = "filemanipulationsappstorage1";
-        private const string keyName = "SampleFile";
-        private const string filePath = @"C:\Users\227977\source\repos\AWS_SampleApp1\README.md";
-
-        static void Main(string[] args) {
-            Console.WriteLine("Hello World!");
-            using (s3Client = new AmazonS3Client(bucketRegion)) {
-                var response = s3Client.ListBucketsAsync().Result;
-                UploadFileAsync().Wait();
-                var objects = s3Client.ListObjectsAsync(bucketName).Result;
-            }
+        public S3BucketFilesManager(RegionEndpoint bucketRegion) {
+            _bucketRegion = bucketRegion;
+            _s3Client = new AmazonS3Client(bucketRegion);
         }
 
-        private static async Task UploadFileAsync() {
-            try {
-                var fileTransferUtility = new TransferUtility(s3Client);
+        public void Dispose() {
+            _s3Client.Dispose();
+        }
+
+        private async Task UploadFileAsync(string filePath, string bucketName) {
+            try
+            {
+                var fileTransferUtility = new TransferUtility(_s3Client);
 
                 // Option 1. Upload a file. The file name is used as the object key name.
                 await fileTransferUtility.UploadAsync(filePath, bucketName);
@@ -37,13 +33,15 @@ namespace AWS_FileProcessing
                 Console.WriteLine("Upload 2 completed");
 
                 // Option 3. Upload data from a type of System.IO.Stream.
-                using (var fileToUpload = new FileStream(filePath, FileMode.Open, FileAccess.Read)) {
+                using (var fileToUpload = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
                     await fileTransferUtility.UploadAsync(fileToUpload, bucketName, keyName);
                 }
                 Console.WriteLine("Upload 3 completed");
 
                 // Option 4. Specify advanced settings.
-                var fileTransferUtilityRequest = new TransferUtilityUploadRequest {
+                var fileTransferUtilityRequest = new TransferUtilityUploadRequest
+                {
                     BucketName = bucketName,
                     FilePath = filePath,
                     StorageClass = S3StorageClass.StandardInfrequentAccess,
@@ -56,11 +54,14 @@ namespace AWS_FileProcessing
 
                 await fileTransferUtility.UploadAsync(fileTransferUtilityRequest);
                 Console.WriteLine("Upload 4 completed");
-            } catch (AmazonS3Exception e) {
+            }
+            catch (AmazonS3Exception e)
+            {
                 Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
             }
         }
-    }
 }
