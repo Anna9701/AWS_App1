@@ -10,4 +10,8 @@
     <PackageReference Include="AWSSDK.S3" Version="3.3.101.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AWS_S3_FilleProcessingLib\AWS_S3_FilleProcessingLib.csproj" />
+  </ItemGroup>
+
 </Project>
