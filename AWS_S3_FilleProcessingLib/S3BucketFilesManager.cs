@@ -19,6 +19,10 @@ namespace AWS_S3_FilleProcessingLib {
             _s3Client.Dispose();
         }
 
+        public async Task ListFilesAsync(String bucketName) {
+            var files = await _s3Client.ListObjectsAsync(bucketName);
+        }
+
         public async Task UploadFileAsync(String filePath, String bucketName, String keyName) {
             try {
                 TransferUtility fileTransferUtility = new TransferUtility(_s3Client);
