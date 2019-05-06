@@ -1,0 +1,17 @@
+﻿@page
+@model S3_FilesProcessingUIWebApp.Pages.Files.IndexModel
+@{
+    ViewData["Title"] = "Files";
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="file" name="file">
+            <input type="submit" value="Upload">
+        </div>
+    </div>
+</form>
+
+<h2>Stored files: </h2>
+
