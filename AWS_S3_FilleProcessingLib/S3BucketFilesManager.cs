@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Amazon;
 using Amazon.S3;
+using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 
 namespace AWS_S3_FilleProcessingLib {
@@ -19,8 +21,9 @@ namespace AWS_S3_FilleProcessingLib {
             _s3Client.Dispose();
         }
 
-        public async Task ListFilesAsync(String bucketName) {
-            var files = await _s3Client.ListObjectsAsync(bucketName);
+        public async Task<List<S3Object>> ListFilesAsync(String bucketName) {
+            ListObjectsResponse files = await _s3Client.ListObjectsAsync(bucketName);
+            return files.S3Objects;
         }
 
         public async Task UploadFileAsync(String filePath, String bucketName, String keyName) {
