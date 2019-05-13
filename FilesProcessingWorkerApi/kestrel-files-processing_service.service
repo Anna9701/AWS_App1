@@ -1,0 +1,15 @@
+[Unit]
+Description=.NET API Files Processing
+
+[Service]
+WorkingDirectory=/home/ubuntu/repository/AWS_App1/FilesProcessingWorkerApi
+ExecStart=/usr/bin/dotnet run --project /home/ubuntu/repository/AWS_App1/FilesProcessingWorkerApi/FilesProcessingWorkerApi.csproj
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+Environment=ASPNETCORE_ENVIRONMENT=Production
+SyslogIdentifier=dotnet-files-processing
+User=ubuntu
+
+[Install]
+WantedBy=multi-user.target
