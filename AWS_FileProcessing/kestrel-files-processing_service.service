@@ -1,9 +1,9 @@
 [Unit]
-Description=.NET API Files Processing
+Description=.NET Files Processing
 
 [Service]
-WorkingDirectory=/home/ubuntu/repository/AWS_App1/FilesProcessingWorkerApi
-ExecStart=/usr/bin/dotnet run --project /home/ubuntu/repository/AWS_App1/FilesProcessingWorkerApi/FilesProcessingWorkerApi.csproj
+WorkingDirectory=/home/ubuntu/repository/AWS_App1/AWS_FileProcessing
+ExecStart=/usr/bin/dotnet run --project /home/ubuntu/repository/AWS_App1/AWS_FileProcessing/AWS_FileProcessing.csproj
 Restart=always
 # Restart service after 10 seconds if the dotnet service crashes:
 RestartSec=10
