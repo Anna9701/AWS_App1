@@ -20,12 +20,10 @@ namespace AWS_FileProcessing {
                 while (true) {
                     var messages = await sqsHandler.ReceiveMessage();
                     await Task.Delay(TimeSpan.FromSeconds(5));
-                    await sqsHandler.DeleteMessage(messages[0]);
+                    var result = await sqsHandler.DeleteMessage(messages[0]);
                 }
             });
-            Console.ReadLine();
+            while (true) {}
         }
-
-
     }
 }

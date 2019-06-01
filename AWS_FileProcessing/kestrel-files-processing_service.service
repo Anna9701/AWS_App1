@@ -4,12 +4,9 @@ Description=.NET Files Processing
 [Service]
 WorkingDirectory=/home/ubuntu/repository/AWS_App1/AWS_FileProcessing
 ExecStart=/usr/bin/dotnet run --project /home/ubuntu/repository/AWS_App1/AWS_FileProcessing/AWS_FileProcessing.csproj
-Restart=always
+# Restart=always
 # Restart service after 10 seconds if the dotnet service crashes:
-RestartSec=10
+# RestartSec=10
 Environment=ASPNETCORE_ENVIRONMENT=Production
 SyslogIdentifier=dotnet-files-processing
 User=ubuntu
-
-[Install]
-WantedBy=multi-user.target
