@@ -19,8 +19,8 @@ namespace S3_FilesProcessingUIWebApp.Pages.Files {
         private const String SuccessMergeRequest = "Your merge request is being processed...";
         private const String FailureMergeRequest = "Your merge request failed with code {0}.";
 
-        [BindProperty]
-        public String MessageContent { get; set; }
+        [BindProperty] public String MessageContent { get; set; }
+
 
         public IndexModel(IConfiguration configuration) {
             _bucketName = configuration["BucketName"];
@@ -35,8 +35,7 @@ namespace S3_FilesProcessingUIWebApp.Pages.Files {
 
             if (TempData.ContainsKey("MergeResult")) {
                 var code = Int32.Parse(TempData["MergeResult"].ToString());
-                MessageContent = code == 200 ? SuccessMergeRequest : string.Format(FailureMergeRequest, code);
-                
+                MessageContent = code >= 200 && code < 300 ? SuccessMergeRequest : string.Format(FailureMergeRequest, code);  
             }
         }
 

@@ -5,46 +5,53 @@
     ViewData["Title"] = "Files";
 }
 
+@{
+    if (!String.IsNullOrEmpty(Model.MessageContent)) {
+        <p class="alert alert-info alert-dismissible">@Model.MessageContent</p>
+    }
+}
+
+
 <form method="post" enctype="multipart/form-data">
     <h3>Upload file</h3>
     <div class="form-group">
         <div class="col-md-10">
-            <input class="btn btn-secondary" type="file" name="file"><br/><br />
+            <input class="btn btn-secondary" type="file" name="file"><br /><br />
             <input class="btn btn-primary" type="submit" value="Upload">
         </div>
     </div>
 </form>
 
-<p class="alert">@Model.MessageContent</p>
 
 <h2>Stored files: </h2>
 <table class="table">
     <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FilesInBucket[0].Key)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FilesInBucket[0].LastModified)
-        </th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FilesInBucket[0].Key)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FilesInBucket[0].LastModified)
+            </th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (S3Object file in Model.FilesInBucket) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => file.Key)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => file.LastModified)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-fileKey="@file.Key">Edit</a> |
-                <a asp-page="./Details" asp-route-fileKey="@file.Key">Details</a> |
-                <a asp-page="./Delete" asp-route-fileKey="@file.Key">Delete</a>
-            </td>
-        </tr>
-    }
+        @foreach (S3Object file in Model.FilesInBucket)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => file.Key)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => file.LastModified)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-fileKey="@file.Key">Edit</a> |
+                    <a asp-page="./Details" asp-route-fileKey="@file.Key">Details</a> |
+                    <a asp-page="./Delete" asp-route-fileKey="@file.Key">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
