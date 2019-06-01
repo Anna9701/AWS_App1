@@ -7,12 +7,12 @@
 <h2>Modify</h2>
 
 <div>
-    Merge file with:
-    <select asp-for="FileToMergeWith" asp-items="@(new SelectList(Model.FilesInBucket, "Key", "Key"))">
-        <option value="">Pick one</option>
-    </select>
-
     <form method="post" enctype="multipart/form-data">
+        Merge file with:
+        <select asp-for="FileToMergeWith" asp-items="@(new SelectList(Model.FilesInBucket, "Key", "Key"))">
+            <option value="">Pick one</option>
+        </select>
+        <input type="text" asp-for="CurrentFileKey" hidden>
         <div class="form-group">
             <div class="col-md-10">
                 <input class="btn btn-primary" type="submit" value="Merge">
