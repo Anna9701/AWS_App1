@@ -38,9 +38,9 @@
                 @Html.DisplayFor(modelItem => file.LastModified)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@file.Key">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@file.Key">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@file.Key">Delete</a>
+                <a asp-page="./Edit" asp-route-fileKey="@file.Key">Edit</a> |
+                <a asp-page="./Details" asp-route-fileKey="@file.Key">Details</a> |
+                <a asp-page="./Delete" asp-route-fileKey="@file.Key">Delete</a>
             </td>
         </tr>
     }
