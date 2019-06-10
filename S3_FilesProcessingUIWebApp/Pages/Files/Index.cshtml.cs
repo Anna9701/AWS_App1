@@ -39,7 +39,7 @@ namespace S3_FilesProcessingUIWebApp.Pages.Files {
             }
         }
 
-        public async Task OnPostAsync(IFormFile file) {
+        public async Task<IActionResult> OnPostAsync(IFormFile file) {
             String filePath = Path.GetTempFileName();
             using (FileStream stream = new FileStream(filePath, FileMode.Create)) {
                 await file.CopyToAsync(stream);
@@ -48,6 +48,7 @@ namespace S3_FilesProcessingUIWebApp.Pages.Files {
             using (S3BucketFilesManager bucketFilesManager = new S3BucketFilesManager(BucketRegion)) {
                 bucketFilesManager.UploadFileAsync(filePath, _bucketName, file.FileName);
             }
+            return RedirectToPage("./Index");
         }
     }
 }
