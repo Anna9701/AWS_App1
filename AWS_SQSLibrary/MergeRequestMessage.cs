@@ -1,7 +1,8 @@
 ﻿using System;
+using Amazon.SQS.Model;
 
 namespace AWS_SQSLibrary {
-    public class MergeRequestMessage {
+    public class MergeRequestMessage : IRequestMessage {
         public const String CommandIndicator = "Merge";
         private const String KeysSeparator = ";";
         public String FileAKey { get; }
@@ -12,7 +13,7 @@ namespace AWS_SQSLibrary {
             FileAKey = fileAKey;
         }
 
-        public MergeRequestMessage(String message) {
+        private MergeRequestMessage(String message) {
             message = message.Substring(CommandIndicator.Length).Trim();
             var split = message.Split(KeysSeparator);
             FileAKey = split[0];
@@ -21,6 +22,14 @@ namespace AWS_SQSLibrary {
 
         public override String ToString() {
             return $"{CommandIndicator} {FileAKey}{KeysSeparator}{FileBKey}";
+        }
+
+        public static explicit operator MergeRequestMessage(Message message) {
+            if (message.Body.StartsWith(CommandIndicator, StringComparison.InvariantCultureIgnoreCase)) {
+                return new MergeRequestMessage(message.Body);
+            }
+
+            throw new InvalidCastException();
         }
     }
 }

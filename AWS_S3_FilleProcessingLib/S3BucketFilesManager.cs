@@ -30,22 +30,7 @@ namespace AWS_S3_FilleProcessingLib {
             try {
                 TransferUtility fileTransferUtility = new TransferUtility(_s3Client);
                 await fileTransferUtility.UploadAsync(filePath, bucketName, keyName);
-                Console.WriteLine("Upload 2 completed");
-            }
-            catch (AmazonS3Exception e) {
-                Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);
-            }
-            catch (Exception e) {
-                Console.WriteLine("Unknown encountered on server. Message:'{0}' when writing an object", e.Message);
-            }
-        }
-
-        public async Task UploadFileAsync(String filePath, String bucketName) {
-            try {
-                TransferUtility fileTransferUtility = new TransferUtility(_s3Client);
-                // Option 1. Upload a file. The file name is used as the object key name.
-                await fileTransferUtility.UploadAsync(filePath, bucketName);
-                Console.WriteLine("Upload 1 completed");
+                Console.WriteLine($"Upload of {keyName} completed");
             }
             catch (AmazonS3Exception e) {
                 Console.WriteLine("Error encountered on server. Message:'{0}' when writing an object", e.Message);

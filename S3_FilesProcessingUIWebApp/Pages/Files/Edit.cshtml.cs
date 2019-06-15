@@ -41,7 +41,7 @@ namespace S3_FilesProcessingUIWebApp.Pages.Files {
         [HttpPost]
         public async Task<RedirectToPageResult> OnPostAsync() {
             HttpStatusCode result = await _sqsHandler.SendMessage(new MergeRequestMessage(FileToMergeWith, CurrentFileKey).ToString());
-            TempData["MergeResult"] = result;
+            TempData["RequestResult"] = result;
             return RedirectToPage("./Index");
         }
     }
