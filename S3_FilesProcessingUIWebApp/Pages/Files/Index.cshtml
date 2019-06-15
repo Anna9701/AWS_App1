@@ -17,40 +17,45 @@
     <div class="form-group">
         <div class="col-md-10">
             <input class="btn btn-secondary" type="file" name="file"><br /><br />
-            <input class="btn btn-primary" type="submit" value="Upload">
+            <input class="btn btn-primary" asp-page-handler="Upload" type="submit" value="Upload">
         </div>
     </div>
 </form>
 
-
-<h2>Stored files: </h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FilesInBucket[0].Key)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FilesInBucket[0].LastModified)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (S3Object file in Model.FilesInBucket)
-        {
+<form method="post">
+    <h2>Stored files: </h2>
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => file.Key)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => file.LastModified)
-                </td>
-                <td>
-                    <a asp-page="./Edit" asp-route-fileKey="@file.Key">Merge</a> |
-                    <a asp-page="./Delete" asp-route-fileKey="@file.Key">Delete</a>
-                </td>
+                <th>Clone? </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FilesInBucket[0].Key)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FilesInBucket[0].LastModified)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (S3Object file in Model.FilesInBucket)
+            {
+                <tr>
+                    <td>
+                        <input asp-for="S3KeysToClone[file.Key]" type="checkbox"/>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => file.Key)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => file.LastModified)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-fileKey="@file.Key">Merge</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <input class="btn btn-primary" asp-page-handler="Clone" type="submit" value="Clone selected">
+</form>
